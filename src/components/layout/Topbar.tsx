@@ -50,7 +50,7 @@ const Topbar = ({
           </IconButton>
 
           <Typography variant="h6" fontWeight={600}>
-            Product & Order Management
+            Order Flow
           </Typography>
         </Box>
         <IconButton color="inherit" onClick={toggleMode}>

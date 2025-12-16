@@ -66,3 +66,7 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.slider-filter .MuiSlider-valueLabel {
+    z-index: 99999 !important;
+}

@@ -8,15 +8,18 @@ import { store } from "./app/store";
 
 import "./styles/index.css";
 import { ThemeModeProvider } from './components/providers/ThemeModeProvider.tsx';
+import AppSnackbarProvider from './components/providers/AppSnackbarProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <ThemeModeProvider>
-          <AppRoutes />
-        </ThemeModeProvider>
-      </BrowserRouter>
+      <AppSnackbarProvider>
+        <BrowserRouter>
+          <ThemeModeProvider>
+            <AppRoutes />
+          </ThemeModeProvider>
+        </BrowserRouter>
+      </AppSnackbarProvider>
     </Provider>
   </React.StrictMode>
 );
