@@ -116,7 +116,6 @@ const ProductListPage = () => {
               title="View"
               color="primary"
               onClick={() => {
-                console.log('View product:', params.id);
                 navigate("/products/" + params.id, { replace: true });
               }}
               showInMenu={false}
@@ -125,7 +124,6 @@ const ProductListPage = () => {
               key="delete"
               icon={<DeleteIcon />}
               label="Delete"
-              // color="error"
               style={{ color: 'red' }}
               onClick={() => {
                 console.log('Delete product:', params.id);

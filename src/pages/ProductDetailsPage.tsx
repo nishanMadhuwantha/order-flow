@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -11,7 +11,8 @@ import {
   Chip,
   Grid,
   Divider,
-} from "@mui/material";
+  IconButton,
+} from '@mui/material';
 import {
   fetchProductById,
   patchProduct,
@@ -19,10 +20,12 @@ import {
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
 import ConfirmationDialog from '../components/common/ConfirmationDialog.tsx';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export default function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { selectedProduct, loading }: any = useAppSelector(
     (state) => state.products
   );
@@ -59,10 +62,21 @@ export default function ProductDetailsPage() {
     <Box p={3} maxWidth={1000}>
       <Grid container spacing={2}>
         <Grid size={12}>
-          <Typography variant="h5">{selectedProduct.title}</Typography>
-          <Typography color="text.secondary">
-            SKU: {selectedProduct.sku}
-          </Typography>
+          <Box display="flex" flexDirection="row" gap={1}>
+            <IconButton
+              color="default"
+              size="small"
+              title='Back to Product'
+              className="!rounded-md"
+              onClick={() => navigate("/products", { replace: true })}
+            >
+              <ArrowBackIosIcon />
+            </IconButton>
+            <Box flexDirection='column'>
+              <Typography variant="h5">{selectedProduct.title}</Typography>
+              <Typography color="text.secondary"><b>SKU:</b> {selectedProduct.sku}</Typography>
+            </Box>
+          </Box>
         </Grid>
         <Grid sx={{xs: 12}}>
           <img
@@ -76,8 +90,6 @@ export default function ProductDetailsPage() {
             ))}
           </Box>
         </Grid>
-
-        {/* Details */}
         <Grid sx={{xs: 12, md: 7}}>
           <Box display="flex" gap={2} alignItems="center">
           <Typography variant="h6" mt={2}>
@@ -99,18 +111,9 @@ export default function ProductDetailsPage() {
               ({selectedProduct.reviews?.length ?? 0} reviews)
             </Typography>
           </Box>
-
-
-
-
-
           <Typography mt={2} fontSize='16px'>{selectedProduct.description}</Typography>
-
           <Divider sx={{ my: 2 }} />
-
-          {/* Meta Info */}
           <Grid container spacing={2}>
-            {/*<Grid sx={{xs: 6, md: 6}}>Brand:{selectedProduct.brand}</Grid>*/}
             <Grid sx={{xs: 6, md: 6}}><b>Brand:</b> {selectedProduct.brand}</Grid>
             <Grid sx={{xs: 6, md: 6}}><b>Category:</b> {selectedProduct.category}</Grid>
             <Grid sx={{xs: 6, md: 6}}>
@@ -129,16 +132,12 @@ export default function ProductDetailsPage() {
               {selectedProduct.dimensions?.depth}
             </Grid>
           </Grid>
-
           <Box mt={2} display="flex" gap={1} flexWrap="wrap">
             {selectedProduct.tags?.map((tag: any) => (
               <Chip size='small' key={tag} label={tag} />
             ))}
           </Box>
-
           <Divider sx={{ my: 2 }} />
-
-          {/* Editable */}
           <Box display="flex" gap={2} alignItems="center">
             <TextField
               label="Stock Quantity"
@@ -147,7 +146,6 @@ export default function ProductDetailsPage() {
               value={stock}
               onChange={(e) => setStock(Number(e.target.value))}
             />
-
             <Box display="flex" alignItems="center">
               <Typography>Inactive</Typography>
               <Switch
