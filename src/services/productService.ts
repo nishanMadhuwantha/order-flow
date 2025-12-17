@@ -52,3 +52,16 @@ export const getCategories = async (): Promise<string[]> => {
   console.log(response)
   return response.data;
 };
+
+export const getProductById = async (id: string): Promise<Product> => {
+  const { data } = await axios.get(`https://dummyjson.com/products/${id}`);
+  return data;
+};
+
+export const updateProduct = async (
+  id: string,
+  payload: Partial<Product>
+): Promise<Product> => {
+  const { data } = await axios.patch(`https://dummyjson.com/products/${id}`, payload);
+  return data;
+};

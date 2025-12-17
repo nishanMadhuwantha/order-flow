@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
 import {
   DataGrid,
+  GridActionsCellItem,
   type GridFilterModel,
   type GridPaginationModel,
   type GridSortModel,
@@ -20,6 +21,9 @@ import { useAppSelector } from '../hooks/useAppSelector.ts';
 import FilterPanel from '../components/common/FilterPanel.tsx';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router-dom';
 
 type GridState = {
   pagination: GridPaginationModel;
@@ -34,6 +38,7 @@ const DEFAULT_GRID_STATE: GridState = {
 
 const ProductListPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const products = useAppSelector(selectProducts);
   const loading = useAppSelector(selectProductLoading);
   const totalCount = useAppSelector(selectTotalProductCount);
@@ -97,6 +102,37 @@ const ProductListPage = () => {
           headerName: "Stock",
           width: 120,
           filterOperators: [SliderFilter],
+        },
+        {
+          field: 'actions',
+          type: 'actions',
+          headerName: 'Actions',
+          width: 100,
+          getActions: (params: any) => [
+            <GridActionsCellItem
+              key="view"
+              icon={<VisibilityIcon />}
+              label="View"
+              title="View"
+              color="primary"
+              onClick={() => {
+                console.log('View product:', params.id);
+                navigate("/products/" + params.id, { replace: true });
+              }}
+              showInMenu={false}
+            />,
+            <GridActionsCellItem
+              key="delete"
+              icon={<DeleteIcon />}
+              label="Delete"
+              // color="error"
+              style={{ color: 'red' }}
+              onClick={() => {
+                console.log('Delete product:', params.id);
+              }}
+              showInMenu={false}
+            />,
+          ],
         },
       ]);
     })();

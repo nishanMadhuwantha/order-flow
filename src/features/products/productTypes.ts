@@ -7,4 +7,5 @@ export interface Product {
   category: string;
   thumbnail: string;
   rating: number;
+  active: boolean;
 }
