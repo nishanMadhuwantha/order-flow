@@ -30,13 +30,14 @@ export function getRandomElement(arr: any) {
 
 export const getRandomDate = () => {
   const today = new Date();
-  const priorDate = new Date().setFullYear(today.getFullYear() - 1);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const randomTimestamp = Math.floor(
-    Math.random() * (today - priorDate) + priorDate
-  );
-  return new Date(randomTimestamp).toISOString().split('T')[0]; // Returns YYYY-MM-DD
+  const priorDate = new Date();
+  priorDate.setFullYear(today.getFullYear() - 1);
+  const todayTs = today.getTime();
+  const priorTs = priorDate.getTime();
+  const randomTimestamp =
+    Math.floor(Math.random() * (todayTs - priorTs) + priorTs);
+
+  return new Date(randomTimestamp).toISOString().split('T')[0];
 };
 
 export const likeOperator = (source?: string, search?: string): boolean => {
