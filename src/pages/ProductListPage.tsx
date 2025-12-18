@@ -41,6 +41,8 @@ const ProductListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
+  const gridReady = useRef(false);
   const products = useAppSelector(selectProducts);
   const loading = useAppSelector(selectProductLoading);
   const totalCount = useAppSelector(selectTotalProductCount);
@@ -54,9 +56,11 @@ const ProductListPage = () => {
     const params: any = {
       limit: pagination.pageSize,
       skip: pagination.page * pagination.pageSize,
-      sortBy: sort[0]?.field,
-      order: sort[0]?.sort,
     };
+    if (sort && sort[0]) {
+      params.sortBy = sort[0]?.field;
+      params.order = sort[0]?.sort;
+    }
     const activeFilter = filter.items.at(-1);
     if (!activeFilter?.value) return params;
     switch (activeFilter.field) {
@@ -68,14 +72,18 @@ const ProductListPage = () => {
           params.search = activeFilter.value;
         }
         break;
-      case 'stock':
-        params.minStock = activeFilter.value[0];
-        params.maxStock = activeFilter.value[1];
+      case 'price':
+        params.minPrice = activeFilter.value[0];
+        params.maxPrice = activeFilter.value[1];
         break;
     }
 
     return params;
   }, [gridState]);
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
 
   useEffect(() => {
     dispatch(fetchProducts(apiParams));
@@ -91,24 +99,31 @@ const ProductListPage = () => {
         {
           field: 'category',
           headerName: 'Category',
-          width: 160,
           type: 'singleSelect',
           valueOptions: categories.map((c: string) => ({
             value: c,
             label: toCapitalizeString(c.replaceAll('-', ' ')),
           })),
+          flex: 1,
         },
-        { field: 'price', headerName: 'Price', width: 120 },
+        {
+          field: 'price',
+          headerName: 'Price',
+          filterOperators: [SliderFilter],
+          width: 150,
+        },
         {
           field: 'stock',
           headerName: 'Stock',
-          width: 120,
-          filterOperators: [SliderFilter],
+          filterable: false,
+          width: 150,
         },
         {
           field: 'actions',
           type: 'actions',
           headerName: 'Actions',
+          filterable: false,
+          sortable: false,
           width: 100,
           getActions: (params: any) => [
             <GridActionsCellItem
@@ -144,24 +159,28 @@ const ProductListPage = () => {
   }, [navigate]);
 
   const handlePaginationChange = useCallback(
-    (pagination: GridPaginationModel) =>
-      setGridState((s) => ({ ...s, pagination })),
+    (pagination: GridPaginationModel) => {
+      if (isFirstRender.current) return;
+      setGridState((s) => ({ ...s, pagination }));
+    },
     []
   );
 
-  const handleSortChange = useCallback(
-    (sort: GridSortModel) => setGridState((s) => ({ ...s, sort })),
-    []
-  );
+  const handleSortChange = useCallback((sort: GridSortModel) => {
+    // Ignore DataGrid's first empty emission
+    if (!gridReady.current && sort.length === 0) return;
 
-  const handleFilterChange = useCallback(
-    (filter: GridFilterModel) =>
-      setGridState((s) => ({
-        ...s,
-        filter: { items: filter.items.slice(-1) },
-      })),
-    []
-  );
+    gridReady.current = true;
+    setGridState((s) => ({ ...s, sort }));
+  }, []);
+
+  const handleFilterChange = useCallback((filter: GridFilterModel) => {
+    if (isFirstRender.current) return;
+    setGridState((s) => ({
+      ...s,
+      filter: { items: filter.items.slice(-1) },
+    }));
+  }, []);
 
   const handleSave = async () => {
     try {

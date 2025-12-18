@@ -30,7 +30,7 @@ interface FetchProductsResponse {
 
 export const fetchProducts = createAsyncThunk<
   FetchProductsResponse,
-  { limit: number; skip: number },
+  { limit: number; skip: number; sortBy: string; order: string },
   { rejectValue: string }
 >('products/fetchProducts', async (params, { rejectWithValue }) => {
   try {
@@ -117,8 +117,6 @@ const productSlice = createSlice({
         }
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        console.log(state.items);
-        console.log(action);
         state.items = state.items.filter(
           (p: any) => p.id !== action.payload.id
         );

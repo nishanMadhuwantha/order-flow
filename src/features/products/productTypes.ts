@@ -17,6 +17,8 @@ export interface FetchProductsParams {
   maxPrice?: number;
   limit: number;
   skip: number;
+  order: string;
+  sortBy: string;
 }
 
 export interface FetchProductsResponse {
