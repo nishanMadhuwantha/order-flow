@@ -5,8 +5,7 @@ import {
   DialogActions,
   Button,
   Typography,
-} from "@mui/material";
-
+} from '@mui/material';
 
 interface Props {
   open: boolean;
@@ -17,19 +16,22 @@ interface Props {
   onExited: () => void;
 }
 
-
 export default function ConfirmationDialog({
-                                             open,
-                                             title,
-                                             description,
-                                             onConfirm,
-                                             onCancel,
-                                             onExited
-                                           }: Props) {
+  open,
+  title,
+  description,
+  onConfirm,
+  onCancel,
+  onExited,
+}: Props) {
   return (
-    <Dialog open={open} onClose={onCancel} TransitionProps={{
-      onExited,
-    }}>
+    <Dialog
+      open={open}
+      onClose={onCancel}
+      TransitionProps={{
+        onExited,
+      }}
+    >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Typography>{description}</Typography>

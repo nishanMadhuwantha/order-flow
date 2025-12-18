@@ -1,6 +1,6 @@
-import { SnackbarProvider, useSnackbar } from "notistack";
-import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
 import React from 'react';
 
 const SnackbarCloseButton = ({ id }: { id: string | number }) => {

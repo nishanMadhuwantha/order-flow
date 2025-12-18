@@ -1,10 +1,6 @@
 import type { Product } from '../products/productTypes.ts';
 
-export type OrderStatus =
-  | 'Pending'
-  | 'Processing'
-  | 'Shipped'
-  | 'Delivered';
+export type OrderStatus = 'Pending' | 'Processing' | 'Shipped' | 'Delivered';
 
 export interface Order {
   id: number;

@@ -6,13 +6,8 @@ export const filterOrders = (
   filters: OrderFilters
 ): Order[] => {
   return orders.filter((order) => {
-    const matchCustomer = likeOperator(
-      order.customerName,
-      filters.search
-    );
-    const matchStatus =
-      !filters.status ||
-      order.status === filters.status.key;
+    const matchCustomer = likeOperator(order.customerName, filters.search);
+    const matchStatus = !filters.status || order.status === filters.status.key;
     const matchQuantity =
       order.quantity >= filters.quantity[0] &&
       order.quantity <= filters.quantity[1];

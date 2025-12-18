@@ -1,19 +1,15 @@
-import { useSnackbar } from "notistack";
+import { useSnackbar } from 'notistack';
 
 export const useNotify = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   return {
-    success: (msg: string) =>
-      enqueueSnackbar(msg, { variant: "success" }),
+    success: (msg: string) => enqueueSnackbar(msg, { variant: 'success' }),
 
-    error: (msg: string) =>
-      enqueueSnackbar(msg, { variant: "error" }),
+    error: (msg: string) => enqueueSnackbar(msg, { variant: 'error' }),
 
-    warning: (msg: string) =>
-      enqueueSnackbar(msg, { variant: "warning" }),
+    warning: (msg: string) => enqueueSnackbar(msg, { variant: 'warning' }),
 
-    info: (msg: string) =>
-      enqueueSnackbar(msg, { variant: "info" }),
+    info: (msg: string) => enqueueSnackbar(msg, { variant: 'info' }),
   };
 };

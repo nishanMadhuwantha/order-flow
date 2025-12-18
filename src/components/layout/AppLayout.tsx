@@ -7,7 +7,7 @@ import { useThemeMode } from '../providers/ThemeModeProvider';
 import { ROUTE_TITLES } from '../../configs/routes/routePaths.ts';
 
 const AppLayout = () => {
-  const isMobile = useMediaQuery("(max-width:900px)");
+  const isMobile = useMediaQuery('(max-width:900px)');
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -18,7 +18,7 @@ const AppLayout = () => {
   }, [location.pathname]);
 
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
       <Topbar
         isMobile={isMobile}
         collapsed={collapsed}
@@ -39,8 +39,8 @@ const AppLayout = () => {
           flexGrow: 1,
           p: { xs: 2, md: 3 },
           mt: 8,
-          overflowY: "auto",
-          bgcolor: "background.default",
+          overflowY: 'auto',
+          bgcolor: 'background.default',
         }}
       >
         <Outlet />

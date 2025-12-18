@@ -18,9 +18,7 @@ export const SliderFilter: GridFilterOperator = {
       <Box px={2}>
         <Slider
           value={value}
-          onChange={(_, newValue) =>
-            applyValue({ ...item, value: newValue })
-          }
+          onChange={(_, newValue) => applyValue({ ...item, value: newValue })}
           min={0}
           max={100}
         />

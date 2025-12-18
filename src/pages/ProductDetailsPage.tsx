@@ -16,7 +16,7 @@ import {
 import {
   fetchProductById,
   patchProduct,
-} from "../features/products/productSlice";
+} from '../features/products/productSlice';
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
 import ConfirmationDialog from '../components/common/ConfirmationDialog.tsx';
@@ -43,7 +43,7 @@ export default function ProductDetailsPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setStock(selectedProduct.stock);
     setActive(selectedProduct.active ?? true);
-  }, [selectedProduct])
+  }, [selectedProduct]);
 
   if (loading || !selectedProduct) {
     return <CircularProgress />;
@@ -71,19 +71,21 @@ export default function ProductDetailsPage() {
             <IconButton
               color="default"
               size="small"
-              title='Back to Product'
+              title="Back to Product"
               className="!rounded-md"
-              onClick={() => navigate("/products", { replace: true })}
+              onClick={() => navigate('/products', { replace: true })}
             >
               <ArrowBackIosIcon />
             </IconButton>
-            <Box flexDirection='column'>
+            <Box flexDirection="column">
               <Typography variant="h5">{selectedProduct.title}</Typography>
-              <Typography color="text.secondary"><b>SKU:</b> {selectedProduct.sku}</Typography>
+              <Typography color="text.secondary">
+                <b>SKU:</b> {selectedProduct.sku}
+              </Typography>
             </Box>
           </Box>
         </Grid>
-        <Grid sx={{xs: 12}}>
+        <Grid sx={{ xs: 12 }}>
           <img
             src={selectedProduct.thumbnail}
             alt={selectedProduct.title}
@@ -91,55 +93,64 @@ export default function ProductDetailsPage() {
           />
           <Box display="flex" gap={1} mt={2} flexWrap="wrap">
             {selectedProduct.images?.map((img: string, index: number) => (
-              <img key={img} src={img} alt={selectedProduct.title + index} width={60} />
+              <img
+                key={img}
+                src={img}
+                alt={selectedProduct.title + index}
+                width={60}
+              />
             ))}
           </Box>
         </Grid>
-        <Grid sx={{xs: 12, md: 7}}>
+        <Grid sx={{ xs: 12, md: 7 }}>
           <Box display="flex" gap={2} alignItems="center">
-          <Typography variant="h6" mt={2}>
-            Price: ${selectedProduct.price}
-          </Typography>
-          <Chip
-            label={selectedProduct.availabilityStatus}
-            color={selectedProduct.stock > 0 ? "success" : "error"}
-            sx={{ mt: 1 }}
-          />
+            <Typography variant="h6" mt={2}>
+              Price: ${selectedProduct.price}
+            </Typography>
+            <Chip
+              label={selectedProduct.availabilityStatus}
+              color={selectedProduct.stock > 0 ? 'success' : 'error'}
+              sx={{ mt: 1 }}
+            />
           </Box>
           <Box display="flex" alignItems="center" gap={1} mt={1}>
-            <Rating
-              value={selectedProduct.rating}
-              readOnly
-              precision={0.5}
-            />
+            <Rating value={selectedProduct.rating} readOnly precision={0.5} />
             <Typography>
               ({selectedProduct.reviews?.length ?? 0} reviews)
             </Typography>
           </Box>
-          <Typography mt={2} fontSize='16px'>{selectedProduct.description}</Typography>
+          <Typography mt={2} fontSize="16px">
+            {selectedProduct.description}
+          </Typography>
           <Divider sx={{ my: 2 }} />
           <Grid container spacing={2}>
-            <Grid sx={{xs: 6, md: 6}}><b>Brand:</b> {selectedProduct.brand}</Grid>
-            <Grid sx={{xs: 6, md: 6}}><b>Category:</b> {selectedProduct.category}</Grid>
-            <Grid sx={{xs: 6, md: 6}}>
+            <Grid sx={{ xs: 6, md: 6 }}>
+              <b>Brand:</b> {selectedProduct.brand}
+            </Grid>
+            <Grid sx={{ xs: 6, md: 6 }}>
+              <b>Category:</b> {selectedProduct.category}
+            </Grid>
+            <Grid sx={{ xs: 6, md: 6 }}>
               <b>Warranty:</b> {selectedProduct.warrantyInformation}
             </Grid>
-            <Grid sx={{xs: 6, md: 6}}>
+            <Grid sx={{ xs: 6, md: 6 }}>
               <b>Shipping:</b> {selectedProduct.shippingInformation}
             </Grid>
-            <Grid sx={{xs: 6, md: 6}}>
+            <Grid sx={{ xs: 6, md: 6 }}>
               <b>Return Policy:</b> {selectedProduct.returnPolicy}
             </Grid>
-            <Grid sx={{xs: 6, md: 6}}><b>Weight:</b> {selectedProduct.weight} kg</Grid>
-            <Grid sx={{xs: 6, md: 6}}>
-              <b>Dimensions:</b> {selectedProduct.dimensions?.width} ×{" "}
-              {selectedProduct.dimensions?.height} ×{" "}
+            <Grid sx={{ xs: 6, md: 6 }}>
+              <b>Weight:</b> {selectedProduct.weight} kg
+            </Grid>
+            <Grid sx={{ xs: 6, md: 6 }}>
+              <b>Dimensions:</b> {selectedProduct.dimensions?.width} ×{' '}
+              {selectedProduct.dimensions?.height} ×{' '}
               {selectedProduct.dimensions?.depth}
             </Grid>
           </Grid>
           <Box mt={2} display="flex" gap={1} flexWrap="wrap">
             {selectedProduct.tags?.map((tag: any) => (
-              <Chip size='small' key={tag} label={tag} />
+              <Chip size="small" key={tag} label={tag} />
             ))}
           </Box>
           <Divider sx={{ my: 2 }} />
@@ -147,7 +158,7 @@ export default function ProductDetailsPage() {
             <TextField
               label="Stock Quantity"
               type="number"
-              size='small'
+              size="small"
               value={stock}
               onChange={(e) => setStock(Number(e.target.value))}
             />

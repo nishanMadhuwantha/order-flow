@@ -6,13 +6,13 @@ import type {
 import { HttpSvc } from '../configs/services/http-svc.tsx';
 
 export const getProducts = async ({
-                                    search,
-                                    category,
-                                    minPrice,
-                                    maxPrice,
-                                    limit,
-                                    skip,
-                                  }: FetchProductsParams): Promise<FetchProductsResponse> => {
+  search,
+  category,
+  minPrice,
+  maxPrice,
+  limit,
+  skip,
+}: FetchProductsParams): Promise<FetchProductsResponse> => {
   let path = '';
   if (category) {
     path = `/products/category/${category}?limit=${limit}&skip=${skip}`;
@@ -23,7 +23,10 @@ export const getProducts = async ({
   }
 
   const data = await HttpSvc.get<FetchProductsResponse>(path);
-  if ((minPrice !== undefined || maxPrice !== undefined) && data.products?.length) {
+  if (
+    (minPrice !== undefined || maxPrice !== undefined) &&
+    data.products?.length
+  ) {
     const filtered = data.products.filter((product: any) => {
       const aboveMin = minPrice === undefined || product.price >= minPrice;
       const belowMax = maxPrice === undefined || product.price <= maxPrice;

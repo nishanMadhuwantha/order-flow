@@ -1,4 +1,3 @@
-
 export const getQueryParam = (queryParam: any = {}) => {
   let queryPath = '';
   const queryValueArray = [];
@@ -22,7 +21,7 @@ export const toCapitalizeString = (str: string) => {
 
 export const isObject = (object: any) => {
   return typeof object === 'object' && object !== null;
-}
+};
 
 export function getRandomElement(arr: any) {
   const randomIndex = Math.floor(Math.random() * arr.length);
@@ -34,18 +33,15 @@ export const getRandomDate = () => {
   const priorDate = new Date().setFullYear(today.getFullYear() - 1);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const randomTimestamp = Math.floor(Math.random() * (today - priorDate) + priorDate);
+  const randomTimestamp = Math.floor(
+    Math.random() * (today - priorDate) + priorDate
+  );
   return new Date(randomTimestamp).toISOString().split('T')[0]; // Returns YYYY-MM-DD
 };
 
-export const likeOperator = (
-  source?: string,
-  search?: string
-): boolean => {
+export const likeOperator = (source?: string, search?: string): boolean => {
   if (!search?.trim()) return true;
   if (!source) return false;
 
-  return source
-    .toLowerCase()
-    .includes(search.trim().toLowerCase());
+  return source.toLowerCase().includes(search.trim().toLowerCase());
 };

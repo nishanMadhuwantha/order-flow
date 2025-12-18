@@ -5,30 +5,32 @@ import {
   Typography,
   Box,
   Chip,
-} from "@mui/material";
+} from '@mui/material';
 import type { Order } from '../../features/orders/orderTypes.ts';
 
 export default function ProductCard({ product }: { product: Order }) {
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column", boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px' }}>
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+      }}
+    >
       <CardMedia
         component="img"
         image={product.thumbnail}
         alt={product.title}
         sx={{
           height: 160,
-          objectFit: "contain",
+          objectFit: 'contain',
           p: 1,
-          backgroundColor: "#fafafa",
+          backgroundColor: '#fafafa',
         }}
       />
       <CardContent sx={{ flexGrow: 1 }}>
-        <Typography
-          variant="subtitle1"
-          fontWeight={600}
-          gutterBottom
-          noWrap
-        >
+        <Typography variant="subtitle1" fontWeight={600} gutterBottom noWrap>
           {product.title}
         </Typography>
         <Box display="flex" justifyContent="space-between" mt={1}>

@@ -1,13 +1,13 @@
-import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { enqueueSnackbar } from "notistack";
-import { fetchProducts } from "../features/products/productSlice";
+import { createListenerMiddleware } from '@reduxjs/toolkit';
+import { enqueueSnackbar } from 'notistack';
+import { fetchProducts } from '../features/products/productSlice';
 export const notificationListener = createListenerMiddleware();
 
 notificationListener.startListening({
   actionCreator: fetchProducts.rejected,
   effect: (action) => {
     if (action.payload) {
-      enqueueSnackbar(action.payload, { variant: "error" });
+      enqueueSnackbar(action.payload, { variant: 'error' });
     }
   },
 });

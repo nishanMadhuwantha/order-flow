@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getProducts,
   getProductById,
   updateProduct,
   deleteProducts,
 } from '../../api/productService';
-import type { Product } from "./productTypes";
+import type { Product } from './productTypes';
 
 interface ProductState {
   items: Product[];
@@ -32,11 +32,11 @@ export const fetchProducts = createAsyncThunk<
   FetchProductsResponse,
   { limit: number; skip: number },
   { rejectValue: string }
->("products/fetchProducts", async (params, { rejectWithValue }) => {
+>('products/fetchProducts', async (params, { rejectWithValue }) => {
   try {
     return await getProducts(params);
   } catch (error: any) {
-    return rejectWithValue(error?.message + " - Failed to fetch products");
+    return rejectWithValue(error?.message + ' - Failed to fetch products');
   }
 });
 
@@ -44,11 +44,11 @@ export const fetchProductById = createAsyncThunk<
   Product,
   string,
   { rejectValue: string }
->("products/fetchProductById", async (id, { rejectWithValue }) => {
+>('products/fetchProductById', async (id, { rejectWithValue }) => {
   try {
     return await getProductById(id);
   } catch {
-    return rejectWithValue("Failed to fetch product details");
+    return rejectWithValue('Failed to fetch product details');
   }
 });
 
@@ -56,33 +56,33 @@ export const patchProduct = createAsyncThunk<
   Product,
   { id: string; payload: Partial<Product> },
   { rejectValue: string }
->("products/patchProduct", async ({ id, payload }, { rejectWithValue }) => {
+>('products/patchProduct', async ({ id, payload }, { rejectWithValue }) => {
   try {
     return await updateProduct(id, payload);
   } catch {
-    return rejectWithValue("Failed to update product");
+    return rejectWithValue('Failed to update product');
   }
 });
 
 export const deleteProduct = createAsyncThunk<
   Product,
- number,
+  number,
   { rejectValue: string }
->("products/deleteProduct", async (id, { rejectWithValue }) => {
+>('products/deleteProduct', async (id, { rejectWithValue }) => {
   try {
     return await deleteProducts(id);
   } catch {
-    return rejectWithValue("Failed to update product");
+    return rejectWithValue('Failed to update product');
   }
 });
 
 const productSlice = createSlice({
-  name: "products",
+  name: 'products',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.pending, state => {
+      .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -93,9 +93,9 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Something went wrong";
+        state.error = action.payload ?? 'Something went wrong';
       })
-      .addCase(fetchProductById.pending, state => {
+      .addCase(fetchProductById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -105,19 +105,23 @@ const productSlice = createSlice({
       })
       .addCase(fetchProductById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Failed to load product";
+        state.error = action.payload ?? 'Failed to load product';
       })
       .addCase(patchProduct.fulfilled, (state, action) => {
         state.selectedProduct = action.payload;
-        const index = state.items.findIndex((p: any) => p.id === action.payload.id);
+        const index = state.items.findIndex(
+          (p: any) => p.id === action.payload.id
+        );
         if (index !== -1) {
           state.items[index] = action.payload;
         }
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        console.log(state.items)
-        console.log(action)
-        state.items = state.items.filter((p: any) => p.id !== action.payload.id);
+        console.log(state.items);
+        console.log(action);
+        state.items = state.items.filter(
+          (p: any) => p.id !== action.payload.id
+        );
       });
   },
 });

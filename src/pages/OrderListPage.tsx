@@ -102,7 +102,7 @@ const OrderListPage: React.FC = () => {
   );
 
   return (
-    <Box className='order-page'>
+    <Box className="order-page">
       <Box fontSize={20} fontWeight={600} mb={1}>
         Orders
       </Box>
@@ -120,8 +120,12 @@ const OrderListPage: React.FC = () => {
                 Status.CANCELLED,
               ]}
               onSearchChange={(v) => setFilters((p) => ({ ...p, search: v }))}
-              onStatusChange={(v) => setFilters((p) => ({ ...p, status: v as OrderStatus }))}
-              onQuantityChange={(v) => setFilters((p: any) => ({ ...p, quantity: v }))}
+              onStatusChange={(v) =>
+                setFilters((p) => ({ ...p, status: v as OrderStatus }))
+              }
+              onQuantityChange={(v) =>
+                setFilters((p: any) => ({ ...p, quantity: v }))
+              }
             />
           </Box>
         </Slide>
@@ -135,7 +139,9 @@ const OrderListPage: React.FC = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Order ID</TableCell>
-                <TableCell sortDirection={orderBy === 'customerName' ? order : false}>
+                <TableCell
+                  sortDirection={orderBy === 'customerName' ? order : false}
+                >
                   <TableSortLabel
                     active={orderBy === 'customerName'}
                     direction={order}
@@ -145,7 +151,9 @@ const OrderListPage: React.FC = () => {
                   </TableSortLabel>
                 </TableCell>
                 <TableCell align="center">Status</TableCell>
-                <TableCell sortDirection={orderBy === 'createdAt' ? order : false}>
+                <TableCell
+                  sortDirection={orderBy === 'createdAt' ? order : false}
+                >
                   <TableSortLabel
                     active={orderBy === 'createdAt'}
                     direction={order}
@@ -185,7 +193,9 @@ const OrderListPage: React.FC = () => {
                       size="small"
                       title="View"
                       className="!rounded-md"
-                      onClick={() => navigate("/orders/" + order.id, { replace: true })}
+                      onClick={() =>
+                        navigate('/orders/' + order.id, { replace: true })
+                      }
                     >
                       <VisibilityIcon />
                     </IconButton>

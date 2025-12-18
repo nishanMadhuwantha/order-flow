@@ -28,5 +28,4 @@ export const mapOrder = (order: Order): Order => ({
   quantity: order.totalQuantity,
 });
 
-export const mapOrders = (orders: Order[]): Order[] =>
-  orders.map(mapOrder);
+export const mapOrders = (orders: Order[]): Order[] => orders.map(mapOrder);

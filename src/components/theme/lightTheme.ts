@@ -1,15 +1,15 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 export const lightTheme = createTheme({
   palette: {
-    mode: "light",
+    mode: 'light',
     background: {
-      default: "#f8fafc",
-      paper: "#ffffff",
+      default: '#f8fafc',
+      paper: '#ffffff',
     },
     text: {
-      primary: "#0f172a",
-      secondary: "#475569",
+      primary: '#0f172a',
+      secondary: '#475569',
     },
   },
   shape: { borderRadius: 12 },

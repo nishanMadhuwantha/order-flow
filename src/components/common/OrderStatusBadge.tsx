@@ -17,8 +17,8 @@ const OrderStatusBadge = ({ value = '' }: StatusProps) => {
           borderRadius: '15px',
         }}
       >
-				{value}
-			</span>
+        {value}
+      </span>
     );
 
   return (
@@ -30,8 +30,8 @@ const OrderStatusBadge = ({ value = '' }: StatusProps) => {
         borderRadius: '15px',
       }}
     >
-			{status.name}
-		</span>
+      {status.name}
+    </span>
   );
 };
 

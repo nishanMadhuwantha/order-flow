@@ -11,14 +11,14 @@ import {
   selectProducts,
   selectProductLoading,
   selectTotalProductCount,
-} from "../features/products/productSelectors";
+} from '../features/products/productSelectors';
 import {
   deleteProduct,
   fetchProducts,
 } from '../features/products/productSlice';
-import { getCategories } from "../api/productService";
-import { SliderFilter } from "../components/common/SliderFilter";
-import { toCapitalizeString } from "../configs/utils/util.ts";
+import { getCategories } from '../api/productService';
+import { SliderFilter } from '../components/common/SliderFilter';
+import { toCapitalizeString } from '../configs/utils/util.ts';
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -33,7 +33,7 @@ type GridState = {
 };
 const DEFAULT_GRID_STATE: GridState = {
   pagination: { page: 0, pageSize: 10 },
-  sort: [{ field: "title", sort: "asc" }],
+  sort: [{ field: 'title', sort: 'asc' }],
   filter: { items: [] },
 };
 
@@ -60,15 +60,15 @@ const ProductListPage = () => {
     const activeFilter = filter.items.at(-1);
     if (!activeFilter?.value) return params;
     switch (activeFilter.field) {
-      case "category":
+      case 'category':
         params.category = activeFilter.value;
         break;
-      case "title":
+      case 'title':
         if (activeFilter.value.length > 3) {
           params.search = activeFilter.value;
         }
         break;
-      case "stock":
+      case 'stock':
         params.minStock = activeFilter.value[0];
         params.maxStock = activeFilter.value[1];
         break;
@@ -87,21 +87,21 @@ const ProductListPage = () => {
       const categories = await getCategories();
       if (!mounted) return;
       setColumns([
-        { field: "title", headerName: "Name", flex: 1 },
+        { field: 'title', headerName: 'Name', flex: 1 },
         {
-          field: "category",
-          headerName: "Category",
+          field: 'category',
+          headerName: 'Category',
           width: 160,
-          type: "singleSelect",
+          type: 'singleSelect',
           valueOptions: categories.map((c: string) => ({
             value: c,
-            label: toCapitalizeString(c.replaceAll("-", " ")),
+            label: toCapitalizeString(c.replaceAll('-', ' ')),
           })),
         },
-        { field: "price", headerName: "Price", width: 120 },
+        { field: 'price', headerName: 'Price', width: 120 },
         {
-          field: "stock",
-          headerName: "Stock",
+          field: 'stock',
+          headerName: 'Stock',
           width: 120,
           filterOperators: [SliderFilter],
         },
@@ -118,7 +118,7 @@ const ProductListPage = () => {
               title="View"
               color="primary"
               onClick={() => {
-                navigate("/products/" + params.id, { replace: true });
+                navigate('/products/' + params.id, { replace: true });
               }}
               showInMenu={false}
             />,
@@ -129,7 +129,7 @@ const ProductListPage = () => {
               style={{ color: 'red' }}
               onClick={() => {
                 setSelectedProduct(params.id);
-                setConfirmOpen(true)
+                setConfirmOpen(true);
               }}
               showInMenu={false}
             />,
@@ -150,14 +150,16 @@ const ProductListPage = () => {
   );
 
   const handleSortChange = useCallback(
-    (sort: GridSortModel) =>
-      setGridState((s) => ({ ...s, sort })),
+    (sort: GridSortModel) => setGridState((s) => ({ ...s, sort })),
     []
   );
 
   const handleFilterChange = useCallback(
     (filter: GridFilterModel) =>
-      setGridState((s) => ({ ...s, filter: { items: filter.items.slice(-1) } })),
+      setGridState((s) => ({
+        ...s,
+        filter: { items: filter.items.slice(-1) },
+      })),
     []
   );
 

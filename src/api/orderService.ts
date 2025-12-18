@@ -1,6 +1,4 @@
-import {
-  getQueryParam,
-} from '../configs/utils/util.ts';
+import { getQueryParam } from '../configs/utils/util.ts';
 import type {
   FetchOrdersResponse,
   Order,

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import {
   Drawer,
   List,
@@ -7,10 +7,10 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-} from "@mui/material";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { ROUTES } from "../../configs/routes/routePaths";
+} from '@mui/material';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { ROUTES } from '../../configs/routes/routePaths';
 
 const drawerWidth = 260;
 const collapsedWidth = 80;
@@ -23,32 +23,32 @@ interface SidebarProps {
 }
 
 const Sidebar = ({
-                   isMobile,
-                   mobileOpen,
-                   collapsed,
-                   onClose,
-                 }: SidebarProps) => {
+  isMobile,
+  mobileOpen,
+  collapsed,
+  onClose,
+}: SidebarProps) => {
   const width = collapsed ? collapsedWidth : drawerWidth;
 
   return (
     <Drawer
-      variant={isMobile ? "temporary" : "permanent"}
+      variant={isMobile ? 'temporary' : 'permanent'}
       open={isMobile ? mobileOpen : true}
       onClose={onClose}
       ModalProps={{ keepMounted: true }}
-      className={collapsed ? "sidebar-collapsed" : ""}
+      className={collapsed ? 'sidebar-collapsed' : ''}
       sx={{
         width,
         flexShrink: 0,
-        "& .MuiDrawer-paper": {
+        '& .MuiDrawer-paper': {
           width,
-          overflowX: "hidden",
-          transition: "width 0.25s ease",
-          boxSizing: "border-box",
+          overflowX: 'hidden',
+          transition: 'width 0.25s ease',
+          boxSizing: 'border-box',
         },
       }}
     >
-      <Toolbar sx={{ justifyContent: collapsed ? "center" : "flex-start" }}>
+      <Toolbar sx={{ justifyContent: collapsed ? 'center' : 'flex-start' }}>
         {!collapsed && (
           <Typography variant="h6" fontWeight={700}>
             Order Flow
@@ -59,15 +59,15 @@ const Sidebar = ({
         <NavLink
           to={ROUTES.PRODUCTS}
           className={({ isActive }) =>
-            `sidebar-item ${isActive ? "active" : ""}`
+            `sidebar-item ${isActive ? 'active' : ''}`
           }
-          style={{ textDecoration: "none", color: "inherit" }}
+          style={{ textDecoration: 'none', color: 'inherit' }}
           onClick={isMobile ? onClose : undefined}
         >
           <ListItemButton
             sx={{
-              borderRadius: "4px",
-              justifyContent: collapsed ? "center" : "flex-start",
+              borderRadius: '4px',
+              justifyContent: collapsed ? 'center' : 'flex-start',
             }}
           >
             <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>
@@ -79,15 +79,15 @@ const Sidebar = ({
         <NavLink
           to={ROUTES.ORDERS}
           className={({ isActive }) =>
-            `sidebar-item ${isActive ? "active" : ""}`
+            `sidebar-item ${isActive ? 'active' : ''}`
           }
-          style={{ textDecoration: "none", color: "inherit" }}
+          style={{ textDecoration: 'none', color: 'inherit' }}
           onClick={isMobile ? onClose : undefined}
         >
           <ListItemButton
             sx={{
-              borderRadius: "4px",
-              justifyContent: collapsed ? "center" : "flex-start",
+              borderRadius: '4px',
+              justifyContent: collapsed ? 'center' : 'flex-start',
             }}
           >
             <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>

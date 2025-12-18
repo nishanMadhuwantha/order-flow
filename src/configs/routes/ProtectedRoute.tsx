@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   isAllowed: boolean;
@@ -6,9 +6,9 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute = ({
-                          isAllowed,
-                          redirectPath = "/",
-                        }: ProtectedRouteProps) => {
+  isAllowed,
+  redirectPath = '/',
+}: ProtectedRouteProps) => {
   if (!isAllowed) {
     return <Navigate to={redirectPath} replace />;
   }

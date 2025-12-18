@@ -13,23 +13,31 @@ class HttpService {
   }
 
   get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.get<T>(url, config).then(res => res.data);
+    return this.client.get<T>(url, config).then((res) => res.data);
   }
 
-  post<T>(url: string, body?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.post<T>(url, body, config).then(res => res.data);
+  post<T>(
+    url: string,
+    body?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
+    return this.client.post<T>(url, body, config).then((res) => res.data);
   }
 
   put<T>(url: string, body?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.put<T>(url, body, config).then(res => res.data);
+    return this.client.put<T>(url, body, config).then((res) => res.data);
   }
 
-  patch<T>(url: string, body?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.patch<T>(url, body, config).then(res => res.data);
+  patch<T>(
+    url: string,
+    body?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
+    return this.client.patch<T>(url, body, config).then((res) => res.data);
   }
 
   delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    return this.client.delete<T>(url, config).then(res => res.data);
+    return this.client.delete<T>(url, config).then((res) => res.data);
   }
 }
 

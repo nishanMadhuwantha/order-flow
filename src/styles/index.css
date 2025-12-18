@@ -68,16 +68,16 @@ button:focus-visible {
 }
 
 .slider-filter .MuiSlider-valueLabel {
-    z-index: 99999 !important;
+  z-index: 99999 !important;
 }
 
 .order-page {
-    & table {
-        & .MuiTableRow-head {
-            height: 47px;
-        }
-        & .MuiTableCell-body {
-            height: 45px;
-        }
+  & table {
+    & .MuiTableRow-head {
+      height: 47px;
     }
+    & .MuiTableCell-body {
+      height: 45px;
+    }
+  }
 }

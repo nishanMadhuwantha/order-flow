@@ -18,14 +18,14 @@ interface Props {
 }
 
 const FilterPanel = ({
-                       search,
-                       status,
-                       quantity,
-                       onSearchChange,
-                       onStatusChange,
-                       onQuantityChange,
-                       statuses,
-                     }: Props) => {
+  search,
+  status,
+  quantity,
+  onSearchChange,
+  onStatusChange,
+  onQuantityChange,
+  statuses,
+}: Props) => {
   return (
     <Stack spac-ing={2} gap={2} flexDirection="row">
       <Box width="100%">
@@ -72,7 +72,7 @@ const FilterPanel = ({
           valueLabelDisplay="auto"
           min={0}
           max={100}
-          sx={{paddingBottom: 0}}
+          sx={{ paddingBottom: 0 }}
         />
       </Box>
     </Stack>

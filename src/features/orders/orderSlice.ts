@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOrderById, getOrders } from '../../api/orderService.ts';
 import type { FetchOrdersResponse, Order } from './orderTypes.ts';
 
@@ -22,11 +22,11 @@ export const fetchOrders = createAsyncThunk<
   FetchOrdersResponse,
   { limit: number; skip: number },
   { rejectValue: string }
->("orders/fetchOrders", async (params, { rejectWithValue }) => {
+>('orders/fetchOrders', async (params, { rejectWithValue }) => {
   try {
     return await getOrders(params);
   } catch (error: any) {
-    return rejectWithValue(error?.message + " - Failed to fetch orders");
+    return rejectWithValue(error?.message + ' - Failed to fetch orders');
   }
 });
 
@@ -34,21 +34,21 @@ export const fetchOrderById = createAsyncThunk<
   Order,
   string,
   { rejectValue: string }
->("orders/fetchOrderById", async (id, { rejectWithValue }) => {
+>('orders/fetchOrderById', async (id, { rejectWithValue }) => {
   try {
     return await getOrderById(id);
   } catch {
-    return rejectWithValue("Failed to fetch order details");
+    return rejectWithValue('Failed to fetch order details');
   }
 });
 
 const orderSlice = createSlice({
-  name: "orders",
+  name: 'orders',
   initialState,
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchOrders.pending, state => {
+      .addCase(fetchOrders.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -61,7 +61,7 @@ const orderSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(fetchOrderById.pending, state => {
+      .addCase(fetchOrderById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
@@ -71,7 +71,7 @@ const orderSlice = createSlice({
       })
       .addCase(fetchOrderById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload ?? "Failed to load Order";
+        state.error = action.payload ?? 'Failed to load Order';
       });
   },
 });
