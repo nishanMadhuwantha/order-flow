@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProducts, getProductById, updateProduct } from "../../services/productService";
+import {
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProducts,
+} from '../../services/productService';
 import type { Product } from "./productTypes";
 
 interface ProductState {
@@ -59,6 +64,18 @@ export const patchProduct = createAsyncThunk<
   }
 });
 
+export const deleteProduct = createAsyncThunk<
+  Product,
+ number,
+  { rejectValue: string }
+>("products/deleteProduct", async (id, { rejectWithValue }) => {
+  try {
+    return await deleteProducts(id);
+  } catch {
+    return rejectWithValue("Failed to update product");
+  }
+});
+
 const productSlice = createSlice({
   name: "products",
   initialState,
@@ -96,6 +113,11 @@ const productSlice = createSlice({
         if (index !== -1) {
           state.items[index] = action.payload;
         }
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        console.log(state.items)
+        console.log(action)
+        state.items = state.items.filter((p: any) => p.id !== action.payload.id);
       });
   },
 });

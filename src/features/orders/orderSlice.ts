@@ -1,44 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-export interface Order {
-  id: number;
-  user: string;
-  total: number;
-  status: "Pending" | "Shipped" | "Delivered" | "Cancelled";
-  date: string;
-}
+import { getOrders } from '../../services/orderService.ts';
+import type { Order } from './orderTypes.ts';
 
 interface OrderState {
-  items: Order[];
+  carts: Order[];
   loading: boolean;
   error: string | null;
+  total: number;
 }
 
 const initialState: OrderState = {
-  items: [],
+  carts: [],
   loading: false,
   error: null,
+  total: 0,
 };
 
-export const fetchOrders = createAsyncThunk<Order[]>(
-  "orders/fetchOrders",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await axios.get("https://dummyjson.com/carts");
-      return res.data.carts.map((cart: any) => ({
-        id: cart.id,
-        user: `User ${cart.userId}`,
-        total: cart.total,
-        status: ["Pending", "Shipped", "Delivered"][cart.id % 3],
-        date: new Date().toISOString(),
-      }));
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err: any) {
-      return rejectWithValue("Failed to fetch orders");
-    }
+interface FetchOrdersResponse {
+  carts: Order[];
+  total: number;
+}
+
+export const fetchOrders = createAsyncThunk<
+  FetchOrdersResponse,
+  { limit: number; skip: number },
+  { rejectValue: string }
+>("orders/fetchOrders", async (params, { rejectWithValue }) => {
+  try {
+    return await getOrders(params);
+  } catch (error: any) {
+    return rejectWithValue(error?.message + " - Failed to fetch products");
   }
-);
+});
 
 const orderSlice = createSlice({
   name: "orders",
@@ -52,7 +45,8 @@ const orderSlice = createSlice({
       })
       .addCase(fetchOrders.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.carts = action.payload.carts;
+        state.total = action.payload.total;
       })
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;

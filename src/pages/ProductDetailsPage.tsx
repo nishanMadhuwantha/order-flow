@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
@@ -26,6 +26,7 @@ export default function ProductDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const gridRef = useRef<HTMLDivElement | null>(null);
   const { selectedProduct, loading }: any = useAppSelector(
     (state) => state.products
   );
@@ -49,18 +50,22 @@ export default function ProductDetailsPage() {
   }
 
   const handleSave = () => {
-    dispatch(
-      patchProduct({
-        id: selectedProduct.id,
-        payload: { stock, active },
-      })
-    );
+    try {
+      dispatch(
+        patchProduct({
+          id: selectedProduct.id,
+          payload: { stock, active },
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
     setConfirmOpen(false);
   };
 
   return (
     <Box p={3} maxWidth={1000}>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} ref={gridRef} tabIndex={-1}>
         <Grid size={12}>
           <Box display="flex" flexDirection="row" gap={1}>
             <IconButton
@@ -171,6 +176,9 @@ export default function ProductDetailsPage() {
         description="Are you sure you want to update this product?"
         onConfirm={handleSave}
         onCancel={() => setConfirmOpen(false)}
+        onExited={() => {
+          gridRef.current?.focus();
+        }}
       />
     </Box>
   );

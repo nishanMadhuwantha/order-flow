@@ -14,6 +14,7 @@ interface Props {
   description: string;
   onConfirm: () => void;
   onCancel: () => void;
+  onExited: () => void;
 }
 
 
@@ -23,9 +24,12 @@ export default function ConfirmationDialog({
                                              description,
                                              onConfirm,
                                              onCancel,
+                                             onExited
                                            }: Props) {
   return (
-    <Dialog open={open} onClose={onCancel}>
+    <Dialog open={open} onClose={onCancel} TransitionProps={{
+      onExited,
+    }}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Typography>{description}</Typography>

@@ -1,64 +1,81 @@
-import { TextField, MenuItem, Slider, Stack, Box } from '@mui/material';
+import {
+  TextField,
+  MenuItem,
+  Slider,
+  Stack,
+  Box,
+  Typography,
+} from '@mui/material';
 
 interface Props {
   search: string;
-  category: string;
-  price: number[];
+  status: string;
+  quantity: number[];
   onSearchChange: (v: string) => void;
-  onCategoryChange: (v: string) => void;
-  onPriceChange: (v: number[]) => void;
-  categories: string[];
+  onStatusChange: (v: string) => void;
+  onQuantityChange: (v: number[]) => void;
+  statuses: any[];
 }
 
 const FilterPanel = ({
                        search,
-                       category,
-                       price,
+                       status,
+                       quantity,
                        onSearchChange,
-                       onCategoryChange,
-                       onPriceChange,
-                       categories,
+                       onStatusChange,
+                       onQuantityChange,
+                       statuses,
                      }: Props) => {
   return (
-      <Stack spac-ing={2} gap={2} flexDirection='row'>
-        <Box width="100%">
-          <TextField
-            label="Search"
-            size="small"
-            fullWidth
-            value={search}
-            onChange={e => onSearchChange(e.target.value)}
-          />
-        </Box>
+    <Stack spac-ing={2} gap={2} flexDirection="row">
+      <Box width="100%">
+        <TextField
+          label="Customer Search"
+          size="small"
+          fullWidth
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </Box>
 
-        <Box width="100%" className='!mt-0'>
-          <TextField
-            select
-            size="small"
-            fullWidth
-            label="Category"
-            value={category}
-            onChange={e => onCategoryChange(e.target.value)}
-          >
-            <MenuItem value="">All</MenuItem>
-            {categories.map(cat => (
-              <MenuItem key={cat} value={cat}>
-                {cat}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
-        <Box width="100%" className='!mt-0'>
-          <Slider
-            size="small"
-            value={price}
-            onChange={(_, val) => onPriceChange(val as number[])}
-            valueLabelDisplay="auto"
-            min={0}
-            max={2000}
-          />
-        </Box>
-      </Stack>
+      <Box width="100%" className="!mt-0">
+        <TextField
+          select
+          size="small"
+          fullWidth
+          label="Status"
+          value={status}
+          onChange={(e) => onStatusChange(e.target.value)}
+        >
+          <MenuItem value="">All</MenuItem>
+          {statuses.map((cat) => (
+            <MenuItem key={cat.key} value={cat}>
+              {cat.name}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Box>
+      <Box width="100%" className="!mt-0">
+        <Typography
+          fontSize="11px"
+          marginBottom={0}
+          id="input-slider"
+          gutterBottom
+        >
+          Quantity
+        </Typography>
+        <Slider
+          size="small"
+          title="Quantity"
+          value={quantity}
+          onChange={(_, val) => onQuantityChange(val as number[])}
+          valueLabelDisplay="auto"
+          min={0}
+          max={100}
+          sx={{paddingBottom: 0}}
+        />
+      </Box>
+    </Stack>
   );
 };
 

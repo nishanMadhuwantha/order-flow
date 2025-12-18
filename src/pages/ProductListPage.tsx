@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -6,24 +6,25 @@ import {
   type GridPaginationModel,
   type GridSortModel,
 } from '@mui/x-data-grid';
-import { Box, IconButton, Slide } from '@mui/material';
+import { Box } from '@mui/material';
 import {
   selectProducts,
   selectProductLoading,
   selectTotalProductCount,
 } from "../features/products/productSelectors";
-import { fetchProducts } from "../features/products/productSlice";
+import {
+  deleteProduct,
+  fetchProducts,
+} from '../features/products/productSlice';
 import { getCategories } from "../services/productService";
 import { SliderFilter } from "../components/common/SliderFilter";
-import { toCapitalizeString } from "../configs/util";
+import { toCapitalizeString } from "../configs/utils/util.ts";
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
-import FilterPanel from '../components/common/FilterPanel.tsx';
-import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import ConfirmationDialog from '../components/common/ConfirmationDialog.tsx';
 
 type GridState = {
   pagination: GridPaginationModel;
@@ -39,12 +40,14 @@ const DEFAULT_GRID_STATE: GridState = {
 const ProductListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const gridRef = useRef<HTMLDivElement | null>(null);
   const products = useAppSelector(selectProducts);
   const loading = useAppSelector(selectProductLoading);
   const totalCount = useAppSelector(selectTotalProductCount);
   const [gridState, setGridState] = useState<GridState>(DEFAULT_GRID_STATE);
   const [columns, setColumns] = useState<any[]>([]);
-  const [enableFilter, setEnableFilter] = useState<boolean>(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<null | number>(null);
 
   const apiParams = useMemo(() => {
     const { pagination, sort, filter } = gridState;
@@ -56,7 +59,6 @@ const ProductListPage = () => {
     };
     const activeFilter = filter.items.at(-1);
     if (!activeFilter?.value) return params;
-
     switch (activeFilter.field) {
       case "category":
         params.category = activeFilter.value;
@@ -126,7 +128,8 @@ const ProductListPage = () => {
               label="Delete"
               style={{ color: 'red' }}
               onClick={() => {
-                console.log('Delete product:', params.id);
+                setSelectedProduct(params.id);
+                setConfirmOpen(true)
               }}
               showInMenu={false}
             />,
@@ -138,7 +141,7 @@ const ProductListPage = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [navigate]);
 
   const handlePaginationChange = useCallback(
     (pagination: GridPaginationModel) =>
@@ -158,50 +161,24 @@ const ProductListPage = () => {
     []
   );
 
+  const handleSave = async () => {
+    try {
+      if (selectedProduct) {
+        await dispatch(deleteProduct(selectedProduct));
+      }
+      setSelectedProduct(null);
+      setConfirmOpen(false);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
   return (
     <Box>
       <Box fontWeight="600" fontSize="20px">
         Products
       </Box>
-      <Box
-        display="flex"
-        flexDirection="row"
-        sx={{ position: 'relative', zIndex: 1 }}
-        width="100%"
-        gap="5px"
-        justifyContent="right"
-        className="p-3"
-      >
-        <Slide direction="left" in={enableFilter} mountOnEnter unmountOnExit>
-          <Box width="inherit">
-            <FilterPanel
-              search={''}
-              category={''}
-              price={[]}
-              onSearchChange={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-              onCategoryChange={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-              onPriceChange={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-              categories={[]}
-            />
-          </Box>
-        </Slide>
-        <IconButton
-          aria-label="favorite"
-          color="primary"
-          title={enableFilter ? 'Clear Filter' : 'Filter'}
-          className="float-right !rounded-md !ml-3"
-          onClick={() => setEnableFilter((prev) => !prev)}
-        >
-          {enableFilter ? <FilterAltOffIcon /> : <FilterAltIcon />}
-        </IconButton>
-      </Box>
-      <Box height="75vh">
+      <Box height="75vh" marginTop="5px" ref={gridRef} tabIndex={-1}>
         <DataGrid
           rows={products}
           columns={columns}
@@ -219,16 +196,28 @@ const ProductListPage = () => {
           pageSizeOptions={[10, 20]}
           disableRowSelectionOnClick
           slotProps={{
-            filterPanel:
-              {
-                filterFormProps: {
-                 // columnInputProps: { sx: { display: "none" }, },
-                  operatorInputProps: { sx: { display: "none" }, },
-                },
+            filterPanel: {
+              filterFormProps: {
+                operatorInputProps: { sx: { display: 'none' } },
               },
+            },
           }}
         />
       </Box>
+
+      <ConfirmationDialog
+        open={confirmOpen}
+        title="Confirm Delete"
+        description="Are you sure you want to update this product?"
+        onConfirm={handleSave}
+        onCancel={() => {
+          setConfirmOpen(false);
+          setSelectedProduct(null);
+        }}
+        onExited={() => {
+          gridRef.current?.focus();
+        }}
+      />
     </Box>
   );
 };
