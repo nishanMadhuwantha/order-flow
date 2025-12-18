@@ -34,8 +34,9 @@ export const getRandomDate = () => {
   priorDate.setFullYear(today.getFullYear() - 1);
   const todayTs = today.getTime();
   const priorTs = priorDate.getTime();
-  const randomTimestamp =
-    Math.floor(Math.random() * (todayTs - priorTs) + priorTs);
+  const randomTimestamp = Math.floor(
+    Math.random() * (todayTs - priorTs) + priorTs
+  );
 
   return new Date(randomTimestamp).toISOString().split('T')[0];
 };
