@@ -78,8 +78,6 @@ const OrderListPage: React.FC = () => {
     });
   }, [orders, filters, debouncedSearch]);
 
-  console.log(filteredOrders)
-
   const handleSort = useCallback(
     (field: OrderBy) => {
       setOrder((prev) =>

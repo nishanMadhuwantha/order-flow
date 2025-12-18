@@ -4,7 +4,7 @@ import {
   getProductById,
   updateProduct,
   deleteProducts,
-} from '../../services/productService';
+} from '../../api/productService';
 import type { Product } from "./productTypes";
 
 interface ProductState {
@@ -121,6 +121,5 @@ const productSlice = createSlice({
       });
   },
 });
-
 
 export default productSlice.reducer;

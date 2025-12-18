@@ -16,7 +16,7 @@ import {
   deleteProduct,
   fetchProducts,
 } from '../features/products/productSlice';
-import { getCategories } from "../services/productService";
+import { getCategories } from "../api/productService";
 import { SliderFilter } from "../components/common/SliderFilter";
 import { toCapitalizeString } from "../configs/utils/util.ts";
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';

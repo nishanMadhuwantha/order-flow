@@ -7,6 +7,7 @@ import AppRoutes from "./configs/routes/AppRoutes";
 import { store } from "./app/store";
 
 import "./styles/index.css";
+import "./styles/layout.css";
 import { ThemeModeProvider } from './components/providers/ThemeModeProvider.tsx';
 import AppSnackbarProvider from './components/providers/AppSnackbarProvider.tsx';
 

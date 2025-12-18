@@ -29,7 +29,7 @@ export interface FetchOrdersResponse {
 }
 
 export interface OrderFilters {
-  customerName: string;
-  status: string | null;
-  quantityRange: [number, number];
+  search: string;
+  status: any | null;
+  quantity: [number, number];
 }

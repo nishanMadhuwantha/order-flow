@@ -9,3 +9,19 @@ export interface Product {
   rating: number;
   active: boolean;
 }
+
+export interface FetchProductsParams {
+  search?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  limit: number;
+  skip: number;
+}
+
+export interface FetchProductsResponse {
+  products: Product[];
+  total: number;
+  skip: number;
+  limit: number;
+}

@@ -36,6 +36,7 @@ const Sidebar = ({
       open={isMobile ? mobileOpen : true}
       onClose={onClose}
       ModalProps={{ keepMounted: true }}
+      className={collapsed ? "sidebar-collapsed" : ""}
       sx={{
         width,
         flexShrink: 0,
@@ -54,41 +55,47 @@ const Sidebar = ({
           </Typography>
         )}
       </Toolbar>
-
       <List sx={{ px: 1 }}>
-        <ListItemButton
-          component={NavLink}
+        <NavLink
           to={ROUTES.PRODUCTS}
+          className={({ isActive }) =>
+            `sidebar-item ${isActive ? "active" : ""}`
+          }
+          style={{ textDecoration: "none", color: "inherit" }}
           onClick={isMobile ? onClose : undefined}
-          sx={{
-            borderRadius: '4px',
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
         >
-          <ListItemIcon
-            sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}
+          <ListItemButton
+            sx={{
+              borderRadius: "4px",
+              justifyContent: collapsed ? "center" : "flex-start",
+            }}
           >
-            <Inventory2Icon />
-          </ListItemIcon>
-          {!collapsed && <ListItemText primary="Products" />}
-        </ListItemButton>
-
-        <ListItemButton
-          component={NavLink}
+            <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>
+              <Inventory2Icon />
+            </ListItemIcon>
+            {!collapsed && <ListItemText primary="Products" />}
+          </ListItemButton>
+        </NavLink>
+        <NavLink
           to={ROUTES.ORDERS}
+          className={({ isActive }) =>
+            `sidebar-item ${isActive ? "active" : ""}`
+          }
+          style={{ textDecoration: "none", color: "inherit" }}
           onClick={isMobile ? onClose : undefined}
-          sx={{
-            borderRadius: '4px',
-            justifyContent: collapsed ? "center" : "flex-start",
-          }}
         >
-          <ListItemIcon
-            sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}
+          <ListItemButton
+            sx={{
+              borderRadius: "4px",
+              justifyContent: collapsed ? "center" : "flex-start",
+            }}
           >
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          {!collapsed && <ListItemText primary="Orders" />}
-        </ListItemButton>
+            <ListItemIcon sx={{ minWidth: 0, mr: collapsed ? 0 : 2 }}>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            {!collapsed && <ListItemText primary="Orders" />}
+          </ListItemButton>
+        </NavLink>
       </List>
     </Drawer>
   );

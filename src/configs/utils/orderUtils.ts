@@ -1,6 +1,5 @@
-import type { OrderFilters } from '../../services/orderService';
 import { likeOperator } from './util.ts';
-import type { Order } from '../../features/orders/orderTypes.ts';
+import type { Order, OrderFilters } from '../../features/orders/orderTypes.ts';
 
 export const filterOrders = (
   orders: Order[],

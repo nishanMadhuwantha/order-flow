@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getOrderId, getOrders } from '../../services/orderService.ts';
-import type { Order } from './orderTypes.ts';
+import { getOrderById, getOrders } from '../../api/orderService.ts';
+import type { FetchOrdersResponse, Order } from './orderTypes.ts';
 
 interface OrderState {
   carts: Order[];
@@ -17,11 +17,6 @@ const initialState: OrderState = {
   error: null,
   total: 0,
 };
-
-interface FetchOrdersResponse {
-  carts: Order[];
-  total: number;
-}
 
 export const fetchOrders = createAsyncThunk<
   FetchOrdersResponse,
@@ -41,7 +36,7 @@ export const fetchOrderById = createAsyncThunk<
   { rejectValue: string }
 >("orders/fetchOrderById", async (id, { rejectWithValue }) => {
   try {
-    return await getOrderId(id);
+    return await getOrderById(id);
   } catch {
     return rejectWithValue("Failed to fetch order details");
   }
