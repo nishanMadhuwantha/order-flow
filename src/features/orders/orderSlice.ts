@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getOrders } from '../../services/orderService.ts';
+import { getOrderId, getOrders } from '../../services/orderService.ts';
 import type { Order } from './orderTypes.ts';
 
 interface OrderState {
   carts: Order[];
+  selectedOrder: Order | null;
   loading: boolean;
   error: string | null;
   total: number;
@@ -12,6 +13,7 @@ interface OrderState {
 const initialState: OrderState = {
   carts: [],
   loading: false,
+  selectedOrder: null,
   error: null,
   total: 0,
 };
@@ -29,7 +31,19 @@ export const fetchOrders = createAsyncThunk<
   try {
     return await getOrders(params);
   } catch (error: any) {
-    return rejectWithValue(error?.message + " - Failed to fetch products");
+    return rejectWithValue(error?.message + " - Failed to fetch orders");
+  }
+});
+
+export const fetchOrderById = createAsyncThunk<
+  Order,
+  string,
+  { rejectValue: string }
+>("orders/fetchOrderById", async (id, { rejectWithValue }) => {
+  try {
+    return await getOrderId(id);
+  } catch {
+    return rejectWithValue("Failed to fetch order details");
   }
 });
 
@@ -51,6 +65,18 @@ const orderSlice = createSlice({
       .addCase(fetchOrders.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      .addCase(fetchOrderById.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrderById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedOrder = action.payload;
+      })
+      .addCase(fetchOrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload ?? "Failed to load Order";
       });
   },
 });

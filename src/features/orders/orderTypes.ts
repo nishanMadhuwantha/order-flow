@@ -14,6 +14,12 @@ export interface Order {
   total: number;
   quantity: number;
   totalQuantity: number;
+  totalProducts: number;
+  discountedTotal: number;
+  price: number;
+  discountPercentage: number;
+  title: string;
+  thumbnail: string;
   createdAt: string;
 }
 

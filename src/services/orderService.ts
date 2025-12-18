@@ -34,3 +34,12 @@ export const getOrders = async (params: any): Promise<FetchOrdersResponse> => {
   })
   return response.data;
 };
+
+export const getOrderId = async (id: string): Promise<Order> => {
+  const { data } = await axios.get(`${BASE_URL}/carts/${id}`);
+  data.customerName = getRandomElement(customerNames);
+  data.status = getRandomElement(statuses);
+  data.createdAt = getRandomDate();
+  data.quantity = data.totalQuantity;
+  return data;
+};

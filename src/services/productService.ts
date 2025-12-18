@@ -37,7 +37,6 @@ export const getProducts = async ({
 
 export const getCategories = async (): Promise<string[]> => {
   const response = await axios.get(`${BASE_URL}/products/category-list`);
-  console.log(response)
   return response.data;
 };
 

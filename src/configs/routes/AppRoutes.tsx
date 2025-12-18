@@ -7,6 +7,7 @@ import AppLayout from '../../components/layout/AppLayout.tsx';
 const ProductListPage = lazy(() => import("../../pages/ProductListPage"));
 const ProductDetailsPage = lazy(() => import("../../pages/ProductDetailsPage"));
 const OrderListPage = lazy(() => import("../../pages/OrderListPage"));
+const OrderDetailsPage = lazy(() => import("../../pages/OrderDetailsPage"));
 
 const PageLoader = () => (
   <Box className="flex items-center justify-center h-[60vh]">
@@ -29,6 +30,10 @@ const AppRoutes = () => {
             element={<ProductDetailsPage />}
           />
           <Route path={ROUTES.ORDERS} element={<OrderListPage />} />
+          <Route
+            path={ROUTES.ORDER_DETAILS}
+            element={<OrderDetailsPage />}
+          />
         </Route>
         <Route
           path="*"

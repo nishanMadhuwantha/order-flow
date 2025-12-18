@@ -178,7 +178,7 @@ const ProductListPage = () => {
       <Box fontWeight="600" fontSize="20px">
         Products
       </Box>
-      <Box height="75vh" marginTop="5px" ref={gridRef} tabIndex={-1}>
+      <Box height="70vh" marginTop="5px" ref={gridRef} tabIndex={-1}>
         <DataGrid
           rows={products}
           columns={columns}

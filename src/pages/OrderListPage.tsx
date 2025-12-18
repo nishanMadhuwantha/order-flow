@@ -29,6 +29,8 @@ import FilterPanel from '../components/common/FilterPanel';
 import type { Order } from '../features/orders/orderTypes';
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
 
 type OrderStatus = 'pending' | 'shipped' | 'delivered' | 'cancelled';
 type OrderBy = 'createdAt' | 'customerName' | 'totalAmount' | 'status';
@@ -39,6 +41,7 @@ type OrderFiltersUI = {
 };
 
 const OrderListPage: React.FC = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const orders = useAppSelector(selectOrders);
   const loading = useAppSelector(selectOrderLoading);
@@ -74,6 +77,8 @@ const OrderListPage: React.FC = () => {
       search: debouncedSearch,
     });
   }, [orders, filters, debouncedSearch]);
+
+  console.log(filteredOrders)
 
   const handleSort = useCallback(
     (field: OrderBy) => {
@@ -126,9 +131,9 @@ const OrderListPage: React.FC = () => {
           {filtersOpen ? <FilterAltOffIcon /> : <FilterAltIcon />}
         </IconButton>
       </Box>
-      <Paper>
-        <TableContainer>
-          <Table size="small">
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ height: '60vh' }}>
+          <Table stickyHeader size="small">
             <TableHead>
               <TableRow>
                 <TableCell>Order ID</TableCell>
@@ -153,6 +158,7 @@ const OrderListPage: React.FC = () => {
                 </TableCell>
                 <TableCell align="right">Qty</TableCell>
                 <TableCell align="right">Amount</TableCell>
+                <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -174,7 +180,18 @@ const OrderListPage: React.FC = () => {
                     {new Date(order.createdAt).toLocaleString()}
                   </TableCell>
                   <TableCell align="right">{order.totalQuantity}</TableCell>
-                  <TableCell align="right">LKR {order.total}</TableCell>
+                  <TableCell align="right">$ {order.total}</TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      color="primary"
+                      size="small"
+                      title="View"
+                      className="!rounded-md"
+                      onClick={() => navigate("/orders/" + order.id, { replace: true })}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
