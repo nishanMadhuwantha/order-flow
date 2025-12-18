@@ -26,14 +26,13 @@ import { filterOrders } from '../configs/utils/orderUtils';
 import { QUANTITY_RANGE, Status } from '../configs/constants';
 import OrderStatusBadge from '../components/common/OrderStatusBadge';
 import FilterPanel from '../components/common/FilterPanel';
-import type { Order } from '../features/orders/orderTypes';
 import { useAppDispatch } from '../hooks/useAppDispatch.ts';
 import { useAppSelector } from '../hooks/useAppSelector.ts';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 
 type OrderStatus = 'pending' | 'shipped' | 'delivered' | 'cancelled';
-type OrderBy = 'createdAt' | 'customerName' | 'totalAmount' | 'status';
+type OrderBy = 'createdAt' | 'customerName';
 type OrderFiltersUI = {
   search: string;
   status: OrderStatus | '';
@@ -71,12 +70,29 @@ const OrderListPage: React.FC = () => {
     dispatch(fetchOrders(apiParams));
   }, [dispatch, apiParams]);
 
-  const filteredOrders = useMemo<Order[]>(() => {
+  const filteredOrders = useMemo(() => {
     return filterOrders(orders, {
       ...filters,
       search: debouncedSearch,
     });
   }, [orders, filters, debouncedSearch]);
+
+  const sortedOrders = useMemo(() => {
+    return [...filteredOrders].sort((a, b) => {
+      let aVal: number;
+      let bVal: number;
+
+      if (orderBy === 'createdAt') {
+        aVal = new Date(a.createdAt).getTime();
+        bVal = new Date(b.createdAt).getTime();
+      } else {
+        aVal = a.customerName.localeCompare(b.customerName);
+        return order === 'asc' ? aVal : -aVal;
+      }
+
+      return order === 'asc' ? aVal - bVal : bVal - aVal;
+    });
+  }, [filteredOrders, orderBy, order]);
 
   const handleSort = useCallback(
     (field: OrderBy) => {
@@ -168,14 +184,14 @@ const OrderListPage: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading && filteredOrders.length === 0 && (
+              {!loading && sortedOrders.length === 0 && (
                 <TableRow>
                   <TableCell colSpan={7} align="center">
                     No orders found
                   </TableCell>
                 </TableRow>
               )}
-              {filteredOrders.map((order) => (
+              {sortedOrders.map((order) => (
                 <TableRow key={order.id} hover>
                   <TableCell>{order.id}</TableCell>
                   <TableCell>{order.customerName}</TableCell>

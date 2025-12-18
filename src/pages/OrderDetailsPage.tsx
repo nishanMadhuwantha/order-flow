@@ -30,7 +30,7 @@ export default function OrderDetailsPage() {
   }
 
   return (
-    <Box p={3} maxWidth={1000}>
+    <Box p={3} width="100%">
       <Box display="flex" alignItems="center" gap={1} mb={2}>
         <IconButton onClick={() => navigate('/orders')}>
           <ArrowBackIosIcon />
